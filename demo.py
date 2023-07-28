@@ -1,14 +1,12 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 
 st.title('Groceries Data Visualization')
 
-DATA_URL = 'https://github.com/BeinmaBeima/ClassDemo/blob/main/Groceries_dataset.csv'
-
 @st.cache
 def load_data():
-    data = pd.read_csv(DATA_URL)
+    data_url = "https://drive.google.com/uc?export=download&id=1hFGHv3k7Bj3gZo58u9Ty_T1oO_AEjqiw"
+    data = pd.read_csv(data_url)
     return data
 
 data_load_state = st.text('Loading data...')
