@@ -1,18 +1,24 @@
 import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
 
-st.set_page_config(
-    page_title="Multipage App",
-    page_icon="👋",
-)
+st.title('Groceries Data Visualization')
 
-st.title("Main Page")
-st.sidebar.success("Select a page above.")
+DATA_URL = 'https://github.com/BeinmaBeima/ClassDemo/blob/main/Groceries_dataset.csv'
 
-if "my_input" not in st.session_state:
-    st.session_state["my_input"] = ""
+@st.cache
+def load_data():
+    data = pd.read_csv(DATA_URL)
+    return data
 
-my_input = st.text_input("Input a text here", st.session_state["my_input"])
-submit = st.button("Submit")
-if submit:
-    st.session_state["my_input"] = my_input
-    st.write("You have entered: ", my_input)
+data_load_state = st.text('Loading data...')
+data = load_data()
+data_load_state.text("Done! (using st.cache)")
+
+if st.checkbox('Show raw data'):
+    st.subheader('Raw data')
+    st.write(data)
+
+st.subheader('10 Most Frequently Purchased Items')
+item_counts = data['itemDescription'].value_counts().head(10)
+st.bar_chart(item_counts)
